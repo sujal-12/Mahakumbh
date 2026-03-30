@@ -1,0 +1,10 @@
+Django
+gunicorn
+whitenoise
+psycopg2-binary
+django-heroku
+Pillow
+geopy
+numpy
+opencv_contrib_python
+opencv_python
