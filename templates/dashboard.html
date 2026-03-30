@@ -1,0 +1,821 @@
+{% extends "base.html" %}
+{% block body %}
+
+<style>
+  .sidebar {
+    background-color: #212529;
+    min-width: 240px;
+    transition: transform 0.3s ease-in-out;
+  }
+
+  .sidebar .nav-link {
+    color: rgba(255, 255, 255, .85);
+    border-radius: 0.5rem;
+    margin-bottom: 0.2rem;
+  }
+
+  .sidebar .nav-link:hover,
+  .sidebar .nav-link.active {
+    background-color: #2b3035;
+    color: #fff;
+  }
+
+  .sidebar .nav-link i {
+    margin-right: 10px;
+  }
+
+  .content-wrapper {
+    flex: 1;
+    background: #f8f9fa;
+  }
+
+  /* Mobile Sidebar */
+  @media (max-width: 767.98px) {
+    .sidebar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 100%;
+      width: 260px;
+      transform: translateX(-100%);
+      z-index: 1050;
+      padding-top: 1rem;
+    }
+
+    .sidebar.show-mobile {
+      transform: translateX(0);
+    }
+
+    .sidebar-backdrop {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.4);
+      z-index: 1040;
+    }
+
+    .sidebar-backdrop.show {
+      display: block;
+    }
+  }
+
+  /* Desktop */
+  @media (min-width: 768px) {
+    .sidebar {
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      transform: none !important;
+    }
+
+    #sidebarToggle {
+      display: none;
+    }
+
+    .sidebar-backdrop {
+      display: none !important;
+    }
+  }
+</style>
+
+<button class="btn btn-dark m-3 d-md-none" id="sidebarToggle">
+  <i class="bi bi-list"></i>
+</button>
+
+<div class="d-flex">
+
+  <div class="sidebar p-4 text-white" id="mainSidebar">
+    <h4 class="text-center mb-4">
+      <i class="bi bi-grid-3x3-gap-fill me-2"></i>
+      <span style="color:#FF9933;">Dashboard</span>
+    </h4>
+
+    <nav class="nav flex-column">
+      <a class="nav-link active" href="#" onclick="showSection('home',event)">
+        <i class="bi bi-house-door-fill"></i> Home
+      </a>
+
+      <a class="nav-link" href="#" onclick="showSection('about',event)">
+        <i class="bi bi-info-circle-fill"></i> Popular Places
+      </a>
+
+      <a class="nav-link" href="#" onclick="showSection('shops',event)">
+        <i class="bi bi-images"></i> All Shops
+      </a>
+      <a class="nav-link" href="#" onclick="showSection('history',event)">
+        <i class="bi bi-images"></i> History
+      </a>
+      <a class="nav-link" href="#" onclick="showSection('crowed',event)">
+        <i class="bi bi-images"></i> Crowded Detection
+      </a>
+      <a class="nav-link" href="#" onclick="showSection('source',event)">
+        <i class="bi bi-images"></i> Source of Travel
+      </a>
+      <a class="nav-link" href="#" onclick="showSection('nearshops',event)">
+        <i class="bi bi-images"></i> Near Shops
+      </a>
+    </nav>
+  </div>
+
+  <div class="sidebar-backdrop" id="sidebarBackdrop"></div>
+
+  <div class="content-wrapper p-4">
+
+    <div id="home" class="card p-4 section-container">
+      <div class="container-xxl py-5">
+        <div class="container">
+          <div class="row g-5">
+            <div class="col-lg-6 wow fadeInUp" data-wow-delay="0.1s" style="min-height: 400px;">
+              <div class="position-relative h-100">
+                <img class="img-fluid position-absolute w-100 h-100" src="static/img/New folder/kumbhmela.png"
+                  alt="Kumbh Mela" style="object-fit: cover;">
+              </div>
+            </div>
+            <div class="col-lg-6 wow fadeInUp" data-wow-delay="0.3s">
+              <h6 class="section-title bg-white text-start text-primary pe-3">About Kumbh Mela</h6>
+              <h1 class="mb-4">Welcome to Kumbh Mela</h1>
+              <p class="mb-4">Kumbh Mela is the largest religious and cultural gathering in the world. Millions of
+                devotees, saints, and visitors come together here to take the holy dip and experience spiritual
+                awakening.</p>
+              <p class="mb-4">This festival showcases Indian traditions, faith, and culture. Various rituals,
+                discourses, cultural programs, and the atmosphere of devotion are the highlights of Kumbh Mela.</p>
+              <div class="row gy-2 gx-4 mb-4">
+                <div class="col-sm-6">
+                  <p class="mb-0"><i class="fa fa-arrow-right text-primary me-2"></i>Holy Bath</p>
+                </div>
+                <div class="col-sm-6">
+                  <p class="mb-0"><i class="fa fa-arrow-right text-primary me-2"></i>Discourses by Saints</p>
+                </div>
+                <div class="col-sm-6">
+                  <p class="mb-0"><i class="fa fa-arrow-right text-primary me-2"></i>Cultural Programs</p>
+                </div>
+                <div class="col-sm-6">
+                  <p class="mb-0"><i class="fa fa-arrow-right text-primary me-2"></i>Spiritual Experience</p>
+                </div>
+              </div>
+              <a class="btn btn-primary py-3 px-5 mt-2" href="">Read More</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="about" class="card p-4 section-container" style="display:none;">
+      <div class="container-xxl py-5">
+        <div class="container">
+          <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
+            <h6 class="section-title bg-white text-center text-primary px-3">Places</h6>
+            <h1 class="mb-5">Popular Places</h1>
+          </div>
+
+          <div class="row g-4 justify-content-center">
+            <div class="col-lg-4 col-md-6 d-flex">
+              <div class="course-item bg-light h-100 w-100 d-flex flex-column">
+                <div class="ratio ratio-4x3">
+                  <img src="static/img/New folder/1.png" class="img-fluid object-fit-cover" alt="">
+                </div>
+                <div class="text-center p-4 d-flex flex-column flex-grow-1">
+                  <h5 class="mb-3">Ramkund Panchwati</h5>
+                  <p class="mb-0 text-start text-md-center text-justify">
+                    One of Nashik’s most revered bathing ghats on the Godavari River, Ramkund is central to the Kumbh
+                    experience.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-lg-4 col-md-6 d-flex">
+              <div class="course-item bg-light h-100 w-100 d-flex flex-column">
+                <div class="ratio ratio-4x3">
+                  <img src="static/img/New folder/2.png" class="img-fluid object-fit-cover" alt="">
+                </div>
+                <div class="text-center p-4 d-flex flex-column flex-grow-1">
+                  <h5 class="mb-3">Shree Kalaram Mandir, Panchavati</h5>
+                  <p class="mb-0 text-start text-md-center text-justify">
+                    Historic temple dedicated to Lord Rama, Sita, and Lakshmana, located in Panchavati.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-lg-4 col-md-6 d-flex">
+              <div class="course-item bg-light h-100 w-100 d-flex flex-column">
+                <div class="ratio ratio-4x3">
+                  <img src="static/img/New folder/3.png" class="img-fluid object-fit-cover" alt="">
+                </div>
+                <div class="text-center p-4 d-flex flex-column flex-grow-1">
+                  <h5 class="mb-3">Triveni Sangam</h5>
+                  <p class="mb-0 text-start text-md-center text-justify">
+                    The sacred confluence near Ramkund, spiritually significant for ritual bathing and prayers.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-lg-4 col-md-6 d-flex">
+              <div class="course-item bg-light h-100 w-100 d-flex flex-column">
+                <div class="ratio ratio-4x3">
+                  <img src="static/img/New folder/muktidham.webp" class="img-fluid object-fit-cover" alt="">
+                </div>
+                <div class="text-center p-4 d-flex flex-column flex-grow-1">
+                  <h5 class="mb-3">Muktidham Mandir</h5>
+                  <p class="mb-0 text-start text-md-center text-justify">
+                    A marble temple complex featuring replicas of the 12 Jyotirlingas and Bhagavad Gita inscriptions.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-lg-4 col-md-6 d-flex">
+              <div class="course-item bg-light h-100 w-100 d-flex flex-column">
+                <div class="ratio ratio-4x3">
+                  <img src="static/img/New folder/Janardan Swami Math.png" class="img-fluid object-fit-cover" alt="">
+                </div>
+                <div class="text-center p-4 d-flex flex-column flex-grow-1">
+                  <h5 class="mb-3">Janardan Swami Math</h5>
+                  <p class="mb-0 text-start text-md-center text-justify">
+                    Janardan Swami Maharaj was a renowned Marathi saint and spiritual teacher from Maharashtra, India,
+                    who lived during the 15th–16th century.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-lg-4 col-md-6 d-flex">
+              <div class="course-item bg-light h-100 w-100 d-flex flex-column">
+                <div class="ratio ratio-4x3">
+                  <img src="static/img/New folder/kailas_math.png" class="img-fluid object-fit-cover" alt="">
+                </div>
+                <div class="text-center p-4 d-flex flex-column flex-grow-1">
+                  <h5 class="mb-3">Kailas Math</h5>
+                  <p class="mb-0 text-start text-md-center text-justify">
+                    Kailas Math is a historic Hindu spiritual ashram and centre where Vedic education and spiritual
+                    teachings are offered.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="shops" class="card p-4 section-container" style="display:none;">
+
+      <!-- Search Bar -->
+      <div class="mb-4">
+        <input type="text" id="shopSearch" class="form-control" placeholder="Search shop by name..."
+          onkeyup="searchShops()">
+      </div>
+
+      <div class="row">
+        {% for shop in shops_data %}
+        <div class="col-lg-4 col-md-6 shop-card"
+          data-products="{% for product in shop.product_set.all %}{{ product.product_name|lower }} {% endfor %}">
+          <div class="course-item bg-light">
+
+            <!-- Shop Image -->
+            <div class="position-relative overflow-hidden">
+              {% if shop.shop_image %}
+              <img class="img-fluid" src="{{ shop.shop_image.url }}" alt="Shop Image">
+              {% else %}
+              <p class="text-center p-3">No Image Available</p>
+              {% endif %}
+            </div>
+
+            <!-- Shop Details -->
+            <div class="text-center p-4">
+              <h5 class="shop-name">{{ shop.shop_name }}</h5>
+              <h6>{{ shop.first_name }} {{ shop.last_name }}</h6>
+              <p>{{ shop.location }}</p>
+              <p>{{ shop.mobile }}</p>
+              <button class="btn btn-outline-warning" data-bs-toggle="modal" data-bs-target="#shopModal{{ shop.id }}">
+                Show Shop
+              </button>
+            </div>
+
+          </div>
+        </div>
+        {% empty %}
+        <p>No Shops Available</p>
+        {% endfor %}
+
+        {% for shop in shops_data %}
+        <!-- Modal -->
+        <div class="modal fade" id="shopModal{{ shop.id }}" tabindex="-1">
+          <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+
+              <div class="modal-header">
+                <h5 class="modal-title">{{ shop.shop_name }} - Products</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+              </div>
+
+              <div class="modal-body">
+
+                <form method="POST">
+                  {% csrf_token %}
+                  <input type="hidden" name="shop_id" value="{{ shop.id }}">
+
+                  {% if shop.product_set.all %}
+                  <table class="table table-bordered">
+                    <thead>
+                      <tr>
+                        <th>Select</th>
+                        <th>Product Name</th>
+                        <th>Price</th>
+                        <th>Available</th>
+                        <th>Buy Qty</th>
+                        <th>Total</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {% for product in shop.product_set.all %}
+                      <tr>
+                        <td>
+                          <input type="checkbox" name="product_id[]" value="{{ product.id }}">
+                        </td>
+
+                        <td>{{ product.product_name }}</td>
+
+                        <td class="price" data-price="{{ product.product_price }}">
+                          ₹ {{ product.product_price }}
+                        </td>
+
+                        <td>{{ product.quantity }}</td>
+
+                        <td>
+                          <input type="number" name="buy_qty_{{ product.id }}" min="0" max="{{ product.quantity }}"
+                            class="form-control qty-input" oninput="updateTotal(this)">
+                        </td>
+
+                        <td class="row-total">₹ 0</td>
+                      </tr>
+                      {% endfor %}
+                    </tbody>
+                  </table>
+
+                  <div class="text-end mt-3">
+                    <h5>Grand Total: <span class="grand-total">₹ 0</span></h5>
+                  </div>
+
+                  <hr>
+
+                  <div class="mb-3">
+                    <label for="feedback" class="form-label">Feedback (optional)</label>
+                    <textarea name="feedback" id="feedback" class="form-control" rows="3"
+                      placeholder="Write your feedback here..."></textarea>
+
+                    <button type="submit" name="feedback_submit" class="btn btn-secondary mt-3">Submit Feedback</button>
+                  </div>
+
+                  <div>
+                    <button type="submit" name="purchase_submit" class="btn btn-success">
+                      Submit Purchase
+                    </button>
+                  </div>
+
+                  <div>
+                    <a href="https://www.google.com/maps/dir/?api=1&destination={{ shop.location|urlencode }}"
+                      target="_blank" class="btn btn-info">
+                      Go Map
+                    </a>
+                  </div>
+
+                  {% else %}
+                  <p>No Products Available</p>
+                  {% endif %}
+                </form>
+
+              </div>
+
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+    <div id="history" class="card p-4 section-container" style="display:none;">
+      <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Shopkeeper Name</th>
+            <th scope="col">Product Name</th>
+            <th scope="col">Quantity</th>
+            <th scope="col">Price</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for purchase in purchases %}
+          <tr>
+            <th scope="row">{{ forloop.counter }}</th>
+            <td>{{ purchase.shopkeeper.first_name }} {{ purchase.shopkeeper.last_name }}</td>
+            <td>{{ purchase.product.product_name }}</td>
+            <td>{{ purchase.quantity }}</td>
+            <td>₹ {{ purchase.total_price }}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+
+    <div id="crowed" class="card p-4 section-container" style="display:none;">
+      <div class="container py-5">
+        <div class="row justify-content-center">
+
+          <!-- Location 1 -->
+          <div class="col-md-6 mb-4">
+            <div class="card card-modern">
+              <div class="card-body">
+                <h5 class="card-title">Location 1</h5>
+                <p class="card-text">
+                  Discover the tranquility of pristine landscapes. An ideal spot for relaxation, photography, and
+                  connecting with nature.
+                </p>
+                {% if crowd_percentage %}
+                <p>Crowd Detection: {{ crowd_percentage }}%</p>
+                {% endif %}
+                <a href="{% url 'open_camera' %}" class="btn btn-primary">Open Camera</a>
+              </div>
+            </div>
+          </div>
+
+          <!-- Location 2 -->
+          <div class="col-md-6 mb-4">
+            <div class="card card-modern">
+              <div class="card-body">
+                <h5 class="card-title">Location 2</h5>
+                <p class="card-text">
+                  Immerse yourself in serene surroundings. Perfect for unwinding, exploring, and capturing breathtaking
+                  moments.
+                </p>
+                <p>Crowd Detection: 50%</p>
+                <a href="#" class="btn btn-primary">Open Camera</a>
+              </div>
+            </div>
+          </div>
+
+          <!-- Location 3 -->
+          <div class="col-md-6 mb-4">
+            <div class="card card-modern">
+              <div class="card-body">
+                <h5 class="card-title">Location 3</h5>
+                <p class="card-text">
+                  Experience untouched beauty and peaceful vibes. Great for photography enthusiasts and nature lovers
+                  alike.
+                  <br><br>
+                </p>
+                <p>Crowd Detection: 70%</p>
+                <a href="#" class="btn btn-primary">Open Camera</a>
+              </div>
+            </div>
+          </div>
+
+          <!-- Location 4 -->
+          <div class="col-md-6 mb-4">
+            <div class="card card-modern">
+              <div class="card-body">
+                <h5 class="card-title">Location 4</h5>
+                <p class="card-text">
+                  Enjoy a serene escape from the everyday hustle. Ideal for relaxation, sightseeing, and creating
+                  lasting memories.
+                </p>
+                <p>Crowd Detection: 60% </p>
+                <a href="#" class="btn btn-primary">Open Camera</a>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+
+    <div id="source" class="card p-4 section-container" style="display:none;">
+      <div class="container-xxl py-5">
+        <div class="container">
+          <!-- Service Start -->
+          <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
+            <h6 class="section-title bg-white text-center text-primary px-3">Travels</h6>
+            <h1 class="mb-5">Source of Travels</h1>
+          </div>
+          <div class="row g-4">
+
+            <!-- Card 1 : Bus Timetable -->
+            <div class="col-lg-4 col-sm-4 wow fadeInUp" data-wow-delay="0.1s">
+              <div class="service-item text-center pt-3">
+                <div class="p-4">
+                  <i class="fa fa-3x fa-bus text-primary mb-4"></i>
+                  <h5 class="mb-3">Bus Timetable</h5>
+                  <p>
+                    Check daily bus timings, routes and schedules easily
+                    for your city.
+                  </p>
+
+                  <a href="static/img/New folder/citylink_timetable.pdf" class="btn btn-primary mt-3">
+                    View Timetable
+                  </a>
+                </div>
+              </div>
+            </div>
+
+            <!-- Card 2 : Bus Application -->
+            <div class="col-lg-4 col-sm-4 wow fadeInUp" data-wow-delay="0.3s">
+              <div class="service-item text-center pt-3">
+                <div class="p-4">
+                  <i class="fa fa-3x fa-mobile-alt text-primary mb-4"></i>
+                  <h5 class="mb-3">Bus Application</h5>
+                  <p>
+                    Download the official Citylink Bus mobile app for
+                    live tracking and updates.
+                  </p>
+
+                  <a href="https://play.google.com/store/apps/details?id=bus.tickets.intrcity" target="_blank"
+                    class="btn btn-success mt-3">
+                    Download App
+                  </a>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-lg-4 col-sm-4 wow fadeInUp" data-wow-delay="0.3s">
+              <div class="service-item text-center pt-3">
+                <div class="p-4">
+                  <i class="fas fa-motorcycle fa-3x text-primary mb-4"></i>
+                  <h5 class="mb-3">Rapido App</h5>
+                  <p>
+                    Download the official Rapido mobile app for
+                    convenient ride booking and tracking.
+                  </p>
+
+                  <a href="https://play.google.com/store/apps/details?id=com.rapido.passenger&hl=en_IN" target="_blank"
+                    class="btn btn-secondary mt-3">
+                    Download App
+                  </a>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="nearshops" class="card p-4 section-container" style="display:none;">
+      <div class="container-xxl py-5">
+        <div class="container">
+
+          <div class="text-center">
+            <h6 class="section-title bg-white text-center text-primary px-3">Shops</h6>
+            <h1 class="mb-5">Nearby Shops ({{ nearby_shops|length }})</h1>
+          </div>
+
+          <div class="row g-4">
+
+            {% for shop in nearby_shops %}
+            <div class="col-lg-4 col-md-6">
+              <div class="card shadow-sm h-100">
+
+                {% if shop.shop_image %}
+                <img src="{{ shop.shop_image.url }}" class="card-img-top" style="height:200px; object-fit:cover;"
+                  alt="{{ shop.shop_name }}">
+                {% else %}
+                <div class="bg-light text-center py-5">
+                  <i class="bi bi-shop fs-1 text-muted"></i>
+                </div>
+                {% endif %}
+
+                <div class="card-body text-center d-flex flex-column">
+                  <h5 class="card-title">{{ shop.shop_name }}</h5>
+                  <p class="mb-1">{{ shop.first_name }} {{ shop.last_name }}</p>
+                  <p class="text-muted small mb-1">{{ shop.location }}</p>
+                  <p class="text-muted small">{{ shop.mobile }}</p>
+
+                  <button class="btn btn-outline-warning mt-auto" data-bs-toggle="modal"
+                    data-bs-target="#nearModal{{ shop.id }}">
+                    Show Shop & Products
+                  </button>
+                </div>
+
+              </div>
+            </div>
+            {% empty %}
+            <div class="col-12">
+              <div class="alert alert-info text-center">
+                No nearby shops found in your location.<br>
+                <small>Make sure your address is correctly saved in your profile.</small>
+              </div>
+            </div>
+            {% endfor %}
+
+          </div>
+        </div>
+      </div>
+
+      <!-- ====================== Modals for Nearby Shops ====================== -->
+      {% for shop in nearby_shops %}
+      <div class="modal fade" id="nearModal{{ shop.id }}" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+          <div class="modal-content">
+
+            <div class="modal-header">
+              <h5 class="modal-title">{{ shop.shop_name }} - Products</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+
+            <div class="modal-body">
+
+              <form method="POST">
+                {% csrf_token %}
+                <input type="hidden" name="shop_id" value="{{ shop.id }}">
+
+                {% if shop.product_set.all %}
+                <table class="table table-bordered table-hover">
+                  <thead class="table-light">
+                    <tr>
+                      <th>Select</th>
+                      <th>Product Name</th>
+                      <th>Price</th>
+                      <th>Available</th>
+                      <th>Buy Qty</th>
+                      <th>Total</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {% for product in shop.product_set.all %}
+                    <tr>
+                      <td><input type="checkbox" name="product_id[]" value="{{ product.id }}"></td>
+                      <td>{{ product.product_name }}</td>
+                      <td class="price" data-price="{{ product.product_price }}">₹ {{ product.product_price }}</td>
+                      <td>{{ product.quantity }}</td>
+                      <td>
+                        <input type="number" name="buy_qty_{{ product.id }}" min="0" max="{{ product.quantity }}"
+                          class="form-control qty-input" oninput="updateTotal(this)">
+                      </td>
+                      <td class="row-total">₹ 0</td>
+                    </tr>
+                    {% endfor %}
+                  </tbody>
+                </table>
+
+                <div class="text-end mt-3">
+                  <h5>Grand Total: <span class="grand-total">₹ 0</span></h5>
+                </div>
+
+                <hr>
+
+                <div class="mb-3">
+                  <label class="form-label">Feedback (optional)</label>
+                  <textarea name="feedback" class="form-control" rows="3"
+                    placeholder="Write your feedback here..."></textarea>
+                </div>
+
+                <div class="d-flex flex-wrap gap-2">
+                  <button type="submit" name="feedback_submit" class="btn btn-secondary">Submit Feedback</button>
+                  <button type="submit" name="purchase_submit" class="btn btn-success">Submit Purchase</button>
+                  <a href="https://www.google.com/maps/dir/?api=1&destination={{ shop.location|urlencode }}"
+                    target="_blank" class="btn btn-info">Open in Google Maps</a>
+                </div>
+
+                {% else %}
+                <p class="text-center text-muted py-4">No products available in this shop right now.</p>
+                {% endif %}
+              </form>
+
+            </div>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+
+    </div>
+
+
+
+  </div>
+</div>
+
+<script>
+  const sidebar = document.getElementById("mainSidebar");
+  const toggleBtn = document.getElementById("sidebarToggle");
+  const backdrop = document.getElementById("sidebarBackdrop");
+
+  toggleBtn.addEventListener("click", function () {
+    sidebar.classList.toggle("show-mobile");
+    backdrop.classList.toggle("show");
+  });
+
+  backdrop.addEventListener("click", function () {
+    sidebar.classList.remove("show-mobile");
+    backdrop.classList.remove("show");
+  });
+
+  function showSection(id, e) {
+    e.preventDefault();
+
+    // फक्त मुख्य विभागांना (section-container) लपवा
+    document.querySelectorAll(".section-container").forEach(sec => {
+      sec.style.display = "none";
+    });
+
+    // हवा तो आयडी असलेला विभाग दाखवा
+    const target = document.getElementById(id);
+    if (target) {
+      target.style.display = "block";
+    }
+
+    // Nav-link active style update
+    document.querySelectorAll(".sidebar .nav-link").forEach(link => {
+      link.classList.remove("active");
+    });
+    e.currentTarget.classList.add("active");
+
+    // Mobile menu close
+    if (window.innerWidth < 768) {
+      sidebar.classList.remove("show-mobile");
+      backdrop.classList.remove("show");
+    }
+  }
+</script>
+
+
+<script>
+  function searchShops() {
+
+    let input = document.getElementById("shopSearch").value.toLowerCase();
+    let shops = document.getElementsByClassName("shop-card");
+
+    for (let i = 0; i < shops.length; i++) {
+
+      let shopName = shops[i].querySelector(".shop-name").innerText.toLowerCase();
+      let products = shops[i].getAttribute("data-products");
+
+      if (shopName.includes(input) || products.includes(input)) {
+        shops[i].style.display = "block";
+      } else {
+        shops[i].style.display = "none";
+      }
+
+    }
+
+  }
+</script>
+<script>
+  function updateTotal(input) {
+
+    let row = input.closest("tr");
+    let price = parseFloat(row.querySelector(".price").dataset.price);
+    let qty = parseInt(input.value) || 0;
+
+    let total = price * qty;
+    row.querySelector(".row-total").innerText = "₹ " + total.toFixed(2);
+
+    updateGrandTotal(input);
+  }
+
+  function updateGrandTotal(element) {
+
+    let modal = element.closest(".modal");
+    let totals = modal.querySelectorAll(".row-total");
+
+    let grand = 0;
+
+    totals.forEach(function (item) {
+      let value = parseFloat(item.innerText.replace("₹", "")) || 0;
+      grand += value;
+    });
+
+    modal.querySelector(".grand-total").innerText = "₹ " + grand.toFixed(2);
+  }
+</script>
+
+
+<script>
+  function openGoogleMap(shopLocation) {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(function (position) {
+        // Visitor che location milale
+        const lat = position.coords.latitude;
+        const lng = position.coords.longitude;
+
+        // Google Maps URL with Source and Destination
+        const mapUrl = `https://www.google.com/maps/dir/?api=1&origin=${lat},${lng}&destination=${encodeURIComponent(shopLocation)}&travelmode=driving`;
+
+        window.open(mapUrl, '_blank');
+      }, function (error) {
+        // Jar visitor ne location permission nahi dili tar direct shop location dakva
+        const mapUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(shopLocation)}`;
+        window.open(mapUrl, '_blank');
+      });
+    } else {
+      // Browser geolocation support karat nasel tar
+      const mapUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(shopLocation)}`;
+      window.open(mapUrl, '_blank');
+    }
+  }
+</script>
+{% endblock body %}

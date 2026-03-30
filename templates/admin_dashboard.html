@@ -1,0 +1,774 @@
+{% extends "base.html" %}
+
+{% block body %}
+<!-- Admin Dashboard Main Content with Sidebar and Dynamic Content Sections -->
+<div class="container-fluid py-4">
+    <div class="wrapper">
+        <!-- Sidebar - All menu items trigger different content panels -->
+        <nav id="sidebar"  style="height:80vh;">
+            <div class="sidebar-header">
+                <h3><i class="fa fa-om me-2"></i>Smart Kumbh</h3>
+                <p>Admin Dashboard</p>
+                <span class="badge-kumbh mt-2 d-inline-block"><i class="fa fa-crown me-1"></i>Super Admin</span>
+            </div>
+
+            <ul class="list-unstyled components">
+                <!-- Main Dashboard (Home) - Active by default -->
+                
+                <!-- Visitor Management -->
+                <li id="menu-visitors">
+                    <a href="#" onclick="showSection('visitors'); return false;"><i class="fas fa-users"></i> Visitor Management</a>
+                </li>
+                <!-- Shop Keepers -->
+                <li id="menu-shops">
+                    <a href="#" onclick="showSection('shops'); return false;"><i class="fas fa-store-alt"></i> Shop Keepers</a>
+                </li>
+                <!-- Crowd Analytics -->
+                <li id="menu-crowd">
+                    <a href="#" onclick="showSection('crowd'); return false;"><i class="fas fa-chart-line"></i> Crowd Analytics</a>
+                </li>
+                <!-- Live Tracking -->
+                <!-- <li id="menu-tracking">
+                    <a href="#" onclick="showSection('tracking'); return false;"><i class="fas fa-map-marker-alt"></i> Live Tracking</a>
+                </li> -->
+                <li class="divider"></li>
+                <!-- Notifications -->
+                <!-- <li id="menu-notifications">
+                    <a href="#" onclick="showSection('notifications'); return false;"><i class="fas fa-bell"></i> Notifications</a>
+                </li> -->
+                <!-- System Settings -->
+                <!-- <li id="menu-settings">
+                    <a href="#" onclick="showSection('settings'); return false;"><i class="fas fa-cog"></i> System Settings</a>
+                </li> -->
+                <!-- Reports -->
+                <!-- <li id="menu-reports">
+                    <a href="#" onclick="showSection('reports'); return false;"><i class="fas fa-file-alt"></i> Reports</a>
+                </li> -->
+            </ul>
+
+            <!-- <div class="sidebar-footer">
+                <div class="d-flex align-items-center mb-2">
+                    <i class="fas fa-circle text-success me-2" style="font-size: 10px;"></i>
+                    <span>Server online</span>
+                </div>
+                <div class="d-flex align-items-center">
+                    <i class="fas fa-clock me-2"></i>
+                    <span>Last sync: 2 min ago</span>
+                </div>
+                <hr class="my-3 bg-light opacity-25">
+                <div class="d-flex">
+                    <i class="fas fa-user-circle me-2"></i>
+                    <span>Admin</span>
+                </div>
+            </div> -->
+        </nav>
+
+        <!-- Page Content - All sections will be displayed here dynamically -->
+        <div id="content">
+            <!-- Toggle Button (for mobile) -->
+            <button type="button" id="sidebarCollapse" class="btn toggle-btn d-lg-none">
+                <i class="fas fa-bars"></i> Toggle Sidebar
+            </button>
+
+            <!-- ========== DASHBOARD SECTION (HOME) ========== -->
+            <div id="section-dashboard" class="content-section">
+                <!-- Welcome Banner -->
+                <div class="row mb-4">
+                    <div class="col-12">
+                        <div class="p-4 bg-white rounded-3 d-flex align-items-center justify-content-between" style="border-left: 6px solid #f1c40f; box-shadow: 0 5px 15px rgba(0,0,0,0.02);">
+                            <div>
+                                <h3 class="mb-1" style="color: #0b2c3f;">🙏 Welcome back, Admin</h3>
+                                <p class="text-muted mb-0"><i class="fa fa-calendar-alt me-2"></i> Smart MahaKumbh Dashboard — realtime insights at a glance</p>
+                            </div>
+                            <div class="d-none d-md-block">
+                                <i class="fa fa-om fa-3x text-primary" style="opacity: 0.2;"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+              
+
+                <!-- Additional placeholder for full width content -->
+                <div class="row mt-3">
+                    <div class="col-12">
+                        <div class="p-3 bg-white rounded-3 border-start border-4 border-warning" style="background-color: #fff9e6;">
+                            <p class="mb-0"><i class="fa fa-info-circle me-2 text-primary"></i> Smart MahaKumbh Admin Dashboard — last updated <strong>12 Feb 2025, 10:30 AM</strong>. All metrics are real-time.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ========== VISITOR MANAGEMENT SECTION ========== -->
+            <div id="section-visitors" class="content-section" style="display: none;">
+                <div class="row mb-4">
+                    <div class="col-12">
+                        <div class="p-4 bg-white rounded-3 d-flex align-items-center justify-content-between" style="border-left: 6px solid #0d6efd;">
+                            <div>
+                                <h3 class="mb-1" style="color: #0b2c3f;"><i class="fas fa-users me-2"></i>Visitor Management</h3>
+                                <p class="text-muted mb-0">Complete visitor database, registration, and access control.</p>
+                            </div>
+                            <div class="d-none d-md-block">
+                                <span class="badge bg-primary p-3"><i class="fas fa-user-plus fa-2x"></i></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Visitor Table with Search and Filters -->
+                <div class="card border-0 shadow-sm">
+                    <div class="card-header bg-white py-3 d-flex justify-content-between align-items-center">
+                        <h5 class="mb-0 fw-bold">All Visitors</h5>
+                        <div>
+                            <button class="btn btn-sm btn-outline-primary me-2"><i class="fas fa-search"></i> Search</button>
+                            <button class="btn btn-sm btn-primary"><i class="fas fa-user-plus"></i> Add Visitor</button>
+                        </div>
+                    </div>
+                    <div class="card-body p-0">
+                        <div class="table-responsive">
+                            <table class="table table-hover align-middle mb-0">
+                                <thead class="bg-light">
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Visitor Name</th>
+                                        <th>Email Address</th>
+                                        <th>Contact</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                  {% for visitors_data in visitors  %}
+                                    
+                               
+                                    <tr>
+                                        <td>{{forloop.counter}}</td>
+                                        <td>
+                                            <div class="d-flex align-items-center">
+                                                <i class="fas fa-user-circle fa-2x text-secondary me-2"></i>
+                                                <span>{{visitors_data.first_name}} {{visitors_data.last_name}}</span>
+                                            </div>
+                                        </td>
+                                        <td>{{visitors_data.username}}</td>
+                                        <td>{{visitors_data.mobile}}</td>
+                                        
+                                        <td>
+                                            <button class="btn btn-sm btn-outline-secondary"><i class="fas fa-edit"></i></button>
+                                            <button class="btn btn-sm btn-outline-danger"><i class="fas fa-ban"></i></button>
+                                        </td>
+                                    </tr>
+
+
+                                       {% endfor %}
+                                    <tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="card-footer bg-white py-3">
+                        <nav aria-label="Visitor pagination">
+                            <ul class="pagination justify-content-center mb-0">
+                                <li class="page-item disabled"><a class="page-link" href="#">Previous</a></li>
+                                <li class="page-item active"><a class="page-link" href="#">1</a></li>
+                                <li class="page-item"><a class="page-link" href="#">2</a></li>
+                                <li class="page-item"><a class="page-link" href="#">3</a></li>
+                                <li class="page-item"><a class="page-link" href="#">Next</a></li>
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ========== SHOP KEEPERS SECTION ========== -->
+            <div id="section-shops" class="content-section" style="display: none;">
+                <div class="row mb-4">
+                    <div class="col-12">
+                        <div class="p-4 bg-white rounded-3 d-flex align-items-center justify-content-between" style="border-left: 6px solid #198754;">
+                            <div>
+                                <h3 class="mb-1" style="color: #0b2c3f;"><i class="fas fa-store-alt me-2"></i>Shop Keepers Management</h3>
+                                <p class="text-muted mb-0">Manage all registered shops, stall owners, and licenses.</p>
+                            </div>
+                            <div class="d-none d-md-block">
+                                <span class="badge bg-success p-3"><i class="fas fa-store fa-2x"></i></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Shops Table -->
+                <div class="card border-0 shadow-sm">
+                    <div class="card-header bg-white py-3 d-flex justify-content-between align-items-center">
+                        <h5 class="mb-0 fw-bold">All Shop Keepers</h5>
+                        <div>
+                            <button class="btn btn-sm btn-outline-primary me-2"><i class="fas fa-search"></i> Search</button>
+                            <button class="btn btn-sm btn-success"><i class="fas fa-plus"></i> Register New Shop</button>
+                        </div>
+                    </div>
+                    <div class="card-body p-0">
+                        <div class="table-responsive">
+                            <table class="table table-hover align-middle mb-0">
+                                <thead class="bg-light">
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Shop Name</th>
+                                        <th>Owner Name</th>
+                                        <th>Contact</th>
+                                        <th>Location</th>
+                                        <th>Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                  {% for shopkeeper_data in shopkeepers %}
+                                    
+                                  
+                                    <tr>
+                                        <td>{{forloop.counter}}</td>
+                                        <td>{{shopkeeper_data.shop_name}}</td>
+                                        <td>{{shopkeeper_data.first_name}} {{shopkeeper_data.last_name}}</td>
+                                        <td>{{shopkeeper_data.mobile}}</td>
+                                        <td>{{shopkeeper_data.location}}</td>
+                                        <td>
+                                            <button class="btn btn-sm btn-outline-secondary"><i class="fas fa-edit"></i></button>
+                                            <button class="btn btn-sm btn-outline-danger"><i class="fas fa-ban"></i></button>
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ========== CROWD ANALYTICS SECTION ========== -->
+            <div id="section-crowd" class="content-section" style="display: none;">
+                <div class="row mb-4">
+                    <div class="col-12">
+                        <div class="p-4 bg-white rounded-3 d-flex align-items-center justify-content-between" style="border-left: 6px solid #ffc107;">
+                            <div>
+                                <h3 class="mb-1" style="color: #0b2c3f;"><i class="fas fa-chart-line me-2"></i>Crowd Analytics</h3>
+                                <p class="text-muted mb-0">Real-time crowd density, movement patterns, and predictions.</p>
+                            </div>
+                            <div class="d-none d-md-block">
+                                <span class="badge bg-warning p-3"><i class="fas fa-chart-bar fa-2x"></i></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Sector-wise Breakdown -->
+                <div class="card border-0 shadow-sm">
+                    <div class="card-header bg-white py-3">
+                        <h5 class="mb-0 fw-bold">Sector-wise Crowd Distribution</h5>
+                    </div>
+                    <div class="card-body">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>SRNO</th>
+                                    <th>Location Name</th>
+                                    <th>Peoples </th>
+                                    <th>Crowd Percentage</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for crowd in crowd_data %}
+                                <tr>
+                                    <td>{{ forloop.counter }}</td>
+                                    <td>{{ crowd.location_name }}</td>
+                                    <td>{{ crowd.people_count }}</td>
+                                    <td>{{ crowd.crowd_percentage }}%</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ========== LIVE TRACKING SECTION ========== -->
+            <div id="section-tracking" class="content-section" style="display: none;">
+                <div class="row mb-4">
+                    <div class="col-12">
+                        <div class="p-4 bg-white rounded-3 d-flex align-items-center justify-content-between" style="border-left: 6px solid #0dcaf0;">
+                            <div>
+                                <h3 class="mb-1" style="color: #0b2c3f;"><i class="fas fa-map-marker-alt me-2"></i>Live Tracking</h3>
+                                <p class="text-muted mb-0">Track visitors, staff, and resources in real-time.</p>
+                            </div>
+                            <div class="d-none d-md-block">
+                                <span class="badge bg-info p-3"><i class="fas fa-location-dot fa-2x"></i></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card border-0 shadow-sm">
+                    <div class="card-body text-center py-5" style="background: #f8f9fa; min-height: 400px;">
+                        <i class="fas fa-map fa-5x text-muted mb-4"></i>
+                        <h4 class="text-muted">Live Tracking Map</h4>
+                        <p class="text-muted">Real-time GPS tracking of registered visitors and staff vehicles.</p>
+                        <div class="d-flex justify-content-center gap-3 mt-4">
+                            <span class="badge bg-primary p-2"><i class="fas fa-user"></i> Visitors: 124</span>
+                            <span class="badge bg-success p-2"><i class="fas fa-store"></i> Staff: 48</span>
+                            <span class="badge bg-warning text-dark p-2"><i class="fas fa-ambulance"></i> Emergency: 6</span>
+                        </div>
+                        <button class="btn btn-primary mt-4"><i class="fas fa-play"></i> Start Live Tracking</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ========== NOTIFICATIONS SECTION ========== -->
+            <div id="section-notifications" class="content-section" style="display: none;">
+                <div class="row mb-4">
+                    <div class="col-12">
+                        <div class="p-4 bg-white rounded-3 d-flex align-items-center justify-content-between" style="border-left: 6px solid #6f42c1;">
+                            <div>
+                                <h3 class="mb-1" style="color: #0b2c3f;"><i class="fas fa-bell me-2"></i>Notifications</h3>
+                                <p class="text-muted mb-0">Send and manage alerts, announcements, and system notifications.</p>
+                            </div>
+                            <div class="d-none d-md-block">
+                                <span class="badge bg-purple p-3" style="background: #6f42c1;"><i class="fas fa-broadcast-tower fa-2x"></i></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4 mb-4">
+                        <div class="card border-0 shadow-sm h-100">
+                            <div class="card-body">
+                                <h5 class="mb-3"><i class="fas fa-plus-circle me-2 text-primary"></i>Create Notification</h5>
+                                <form>
+                                    <div class="mb-3">
+                                        <label class="form-label">Title</label>
+                                        <input type="text" class="form-control" placeholder="Notification title">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label class="form-label">Message</label>
+                                        <textarea class="form-control" rows="3" placeholder="Enter notification message"></textarea>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label class="form-label">Send to</label>
+                                        <select class="form-select">
+                                            <option>All Visitors</option>
+                                            <option>All Shop Keepers</option>
+                                            <option>VIP Visitors</option>
+                                            <option>Specific Sector</option>
+                                        </select>
+                                    </div>
+                                    <button class="btn btn-primary w-100"><i class="fas fa-paper-plane"></i> Send Notification</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-8">
+                        <div class="card border-0 shadow-sm">
+                            <div class="card-header bg-white py-3">
+                                <h5 class="mb-0 fw-bold">Recent Notifications</h5>
+                            </div>
+                            <div class="list-group list-group-flush">
+                                <div class="list-group-item d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <span class="badge bg-danger mb-1">Urgent</span>
+                                        <p class="mb-0 fw-bold">Crowd alert at Sector 7</p>
+                                        <small class="text-muted">2 minutes ago • Sent to 1,243 visitors</small>
+                                    </div>
+                                    <span class="badge bg-success">Delivered</span>
+                                </div>
+                                <div class="list-group-item d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <span class="badge bg-warning text-dark mb-1">Reminder</span>
+                                        <p class="mb-0 fw-bold">Lost & Found center location</p>
+                                        <small class="text-muted">15 minutes ago • Sent to all</small>
+                                    </div>
+                                    <span class="badge bg-success">Delivered</span>
+                                </div>
+                                <div class="list-group-item d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <span class="badge bg-info mb-1">Info</span>
+                                        <p class="mb-0 fw-bold">Next holy dip schedule</p>
+                                        <small class="text-muted">1 hour ago • Sent to VIP visitors</small>
+                                    </div>
+                                    <span class="badge bg-success">Delivered</span>
+                                </div>
+                                <div class="list-group-item d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <span class="badge bg-secondary mb-1">System</span>
+                                        <p class="mb-0 fw-bold">Server maintenance at 2 AM</p>
+                                        <small class="text-muted">3 hours ago • Sent to staff</small>
+                                    </div>
+                                    <span class="badge bg-success">Delivered</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ========== SYSTEM SETTINGS SECTION ========== -->
+            <div id="section-settings" class="content-section" style="display: none;">
+                <div class="row mb-4">
+                    <div class="col-12">
+                        <div class="p-4 bg-white rounded-3 d-flex align-items-center justify-content-between" style="border-left: 6px solid #6c757d;">
+                            <div>
+                                <h3 class="mb-1" style="color: #0b2c3f;"><i class="fas fa-cog me-2"></i>System Settings</h3>
+                                <p class="text-muted mb-0">Configure application parameters, access controls, and preferences.</p>
+                            </div>
+                            <div class="d-none d-md-block">
+                                <span class="badge bg-secondary p-3"><i class="fas fa-sliders-h fa-2x"></i></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card border-0 shadow-sm">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <h5 class="mb-3">General Settings</h5>
+                                <div class="mb-3">
+                                    <label class="form-label">Event Name</label>
+                                    <input type="text" class="form-control" value="Smart MahaKumbh 2025">
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Max Capacity</label>
+                                    <input type="number" class="form-control" value="50000">
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Crowd Threshold</label>
+                                    <select class="form-select">
+                                        <option>Low (30%)</option>
+                                        <option selected>Moderate (60%)</option>
+                                        <option>High (80%)</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <h5 class="mb-3">Security & Access</h5>
+                                <div class="mb-3">
+                                    <div class="form-check form-switch">
+                                        <input class="form-check-input" type="checkbox" id="switch1" checked>
+                                        <label class="form-check-label" for="switch1">Two-factor authentication (Admin)</label>
+                                    </div>
+                                </div>
+                                <div class="mb-3">
+                                    <div class="form-check form-switch">
+                                        <input class="form-check-input" type="checkbox" id="switch2" checked>
+                                        <label class="form-check-label" for="switch2">Visitor registration approval</label>
+                                    </div>
+                                </div>
+                                <div class="mb-3">
+                                    <div class="form-check form-switch">
+                                        <input class="form-check-input" type="checkbox" id="switch3">
+                                        <label class="form-check-label" for="switch3">Maintenance mode</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="text-end">
+                            <button class="btn btn-primary">Save Settings</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ========== REPORTS SECTION ========== -->
+            <div id="section-reports" class="content-section" style="display: none;">
+                <div class="row mb-4">
+                    <div class="col-12">
+                        <div class="p-4 bg-white rounded-3 d-flex align-items-center justify-content-between" style="border-left: 6px solid #dc3545;">
+                            <div>
+                                <h3 class="mb-1" style="color: #0b2c3f;"><i class="fas fa-file-alt me-2"></i>Reports & Analytics</h3>
+                                <p class="text-muted mb-0">Generate and download detailed reports.</p>
+                            </div>
+                            <div class="d-none d-md-block">
+                                <span class="badge bg-danger p-3"><i class="fas fa-download fa-2x"></i></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4 mb-4">
+                        <div class="card border-0 shadow-sm h-100">
+                            <div class="card-body text-center">
+                                <i class="fas fa-users fa-3x text-primary mb-3"></i>
+                                <h5>Visitor Report</h5>
+                                <p class="text-muted small">Daily, weekly, monthly visitor analytics</p>
+                                <button class="btn btn-outline-primary btn-sm"><i class="fas fa-download"></i> Generate</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4 mb-4">
+                        <div class="card border-0 shadow-sm h-100">
+                            <div class="card-body text-center">
+                                <i class="fas fa-store fa-3x text-success mb-3"></i>
+                                <h5>Shop Report</h5>
+                                <p class="text-muted small">Revenue, occupancy, license status</p>
+                                <button class="btn btn-outline-success btn-sm"><i class="fas fa-download"></i> Generate</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4 mb-4">
+                        <div class="card border-0 shadow-sm h-100">
+                            <div class="card-body text-center">
+                                <i class="fas fa-chart-pie fa-3x text-warning mb-3"></i>
+                                <h5>Crowd Report</h5>
+                                <p class="text-muted small">Density patterns, peak hours, predictions</p>
+                                <button class="btn btn-outline-warning btn-sm"><i class="fas fa-download"></i> Generate</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- /#content -->
+    </div>
+    <!-- /.wrapper -->
+</div>
+<!-- /.container-fluid -->
+
+<style>
+    /* Admin Dashboard Sidebar Styles - matches theme colors */
+    .wrapper {
+        display: flex;
+        align-items: stretch;
+    }
+
+    #sidebar {
+        min-width: 280px;
+        max-width: 280px;
+        background: linear-gradient(135deg, #0b2c3f 0%, #1a4b5f 100%);
+        color: #fff;
+        transition: all 0.3s;
+        box-shadow: 3px 0 10px rgba(0,0,0,0.1);
+        border-radius: 0 20px 20px 0;
+        margin-top: 20px;
+        margin-bottom: 20px;
+        height: fit-content;
+        position: sticky;
+        top: 100px;
+    }
+
+    #sidebar.active {
+        margin-left: -280px;
+    }
+
+    #sidebar .sidebar-header {
+        padding: 25px 20px;
+        background: rgba(0, 0, 0, 0.15);
+        border-bottom: 1px solid rgba(255,255,255,0.1);
+        border-radius: 0 20px 0 0;
+        text-align: center;
+    }
+
+    #sidebar .sidebar-header h3 {
+        color: #fff;
+        font-weight: 700;
+        margin-bottom: 5px;
+        font-family: 'Nunito', sans-serif;
+    }
+
+    #sidebar .sidebar-header p {
+        color: rgba(255,255,255,0.8);
+        margin-bottom: 0;
+        font-size: 14px;
+    }
+
+    #sidebar ul.components {
+        padding: 20px 0;
+    }
+
+    #sidebar ul li a {
+        padding: 12px 25px;
+        display: flex;
+        align-items: center;
+        color: rgba(255,255,255,0.8);
+        border-left: 4px solid transparent;
+        transition: all 0.2s;
+        font-weight: 500;
+        gap: 12px;
+    }
+
+    #sidebar ul li a i {
+        width: 24px;
+        text-align: center;
+        font-size: 1.1rem;
+    }
+
+    #sidebar ul li a:hover {
+        color: #fff;
+        background: rgba(255, 255, 255, 0.1);
+        border-left-color: #f1c40f;
+    }
+
+    #sidebar ul li.active a {
+        color: #fff;
+        background: rgba(255, 255, 255, 0.15);
+        border-left-color: #f1c40f;
+        font-weight: 600;
+    }
+
+    #sidebar ul li.divider {
+        height: 1px;
+        background: rgba(255,255,255,0.1);
+        margin: 15px 0;
+    }
+
+    #sidebar .sidebar-footer {
+        padding: 20px 25px;
+        border-top: 1px solid rgba(255,255,255,0.1);
+        font-size: 14px;
+        color: rgba(255,255,255,0.7);
+    }
+
+    #content {
+        width: 100%;
+        padding: 20px 30px;
+        transition: all 0.3s;
+    }
+
+    .toggle-btn {
+        background: #0b2c3f;
+        color: white;
+        border: none;
+        border-radius: 8px;
+        padding: 10px 18px;
+        font-size: 1.2rem;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        transition: 0.2s;
+        margin-bottom: 20px;
+        box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+    }
+
+    .toggle-btn:hover {
+        background: #1a4b5f;
+        color: white;
+    }
+
+    .admin-stats-card {
+        background: white;
+        border-radius: 16px;
+        padding: 25px;
+        box-shadow: 0 5px 20px rgba(0,0,0,0.02);
+        border: 1px solid #f0f0f0;
+        transition: 0.2s;
+        margin-bottom: 25px;
+    }
+
+    .admin-stats-card:hover {
+        box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+        border-color: #cfe2ff;
+    }
+
+    .stat-icon {
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: rgba(15, 108, 250, 0.08);
+        color: #0b2c3f;
+        font-size: 1.8rem;
+    }
+
+    .bg-soft-primary {
+        background-color: rgba(15, 108, 250, 0.08);
+        color: #0d6efd;
+    }
+
+    .bg-soft-success {
+        background-color: rgba(25, 135, 84, 0.08);
+        color: #198754;
+    }
+
+    .bg-soft-warning {
+        background-color: rgba(255, 193, 7, 0.08);
+        color: #ffc107;
+    }
+
+    .bg-soft-info {
+        background-color: rgba(13, 202, 240, 0.08);
+        color: #0dcaf0;
+    }
+
+    .stat-value {
+        font-size: 2rem;
+        font-weight: 700;
+        color: #0b2c3f;
+        line-height: 1.2;
+    }
+
+    .badge-kumbh {
+        background: #f1c40f;
+        color: #0b2c3f;
+        padding: 5px 12px;
+        border-radius: 50px;
+        font-weight: 600;
+        font-size: 12px;
+    }
+
+    .bg-purple {
+        background-color: #6f42c1 !important;
+    }
+
+    /* responsive */
+    @media (max-width: 992px) {
+        #sidebar {
+            min-width: 260px;
+            max-width: 260px;
+        }
+        #sidebar.active {
+            margin-left: -260px;
+        }
+    }
+    @media (max-width: 768px) {
+        #sidebar {
+            margin-left: -280px;
+        }
+        #sidebar.active {
+            margin-left: 0;
+        }
+        #content {
+            padding: 20px 15px;
+        }
+    }
+</style>
+
+<script>
+    // JavaScript to handle section switching
+    function showSection(sectionName) {
+        // Hide all sections
+        var sections = document.getElementsByClassName('content-section');
+        for (var i = 0; i < sections.length; i++) {
+            sections[i].style.display = 'none';
+        }
+        
+        // Show selected section
+        document.getElementById('section-' + sectionName).style.display = 'block';
+        
+        // Remove active class from all menu items
+        var menuItems = document.querySelectorAll('#sidebar ul li');
+        menuItems.forEach(function(item) {
+            item.classList.remove('active');
+        });
+        
+        // Add active class to clicked menu
+        document.getElementById('menu-' + sectionName).classList.add('active');
+    }
+
+    $(document).ready(function () {
+        $('#sidebarCollapse').on('click', function () {
+            $('#sidebar').toggleClass('active');
+        });
+
+        // Prevent default for placeholder links
+        $('a[href="#"]').click(function(e) {
+            e.preventDefault();
+        });
+        
+        // Ensure dashboard is visible on load (default)
+        // Already visible due to inline style, but just to be safe
+        showSection('dashboard');
+    });
+</script>
+{% endblock body %}

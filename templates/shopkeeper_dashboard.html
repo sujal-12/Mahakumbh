@@ -1,0 +1,363 @@
+{% extends "base.html" %}
+{% block body %}
+
+<style>
+  .sidebar {
+    background-color: #212529;
+    min-width: 240px;
+    transition: transform 0.3s ease-in-out;
+  }
+
+  .sidebar .nav-link {
+    color: rgba(255, 255, 255, .85);
+    border-radius: 0.5rem;
+    margin-bottom: 0.2rem;
+  }
+
+  .sidebar .nav-link:hover,
+  .sidebar .nav-link.active {
+    background-color: #2b3035;
+    color: #fff;
+  }
+
+  .sidebar .nav-link i {
+    margin-right: 10px;
+  }
+
+  .content-wrapper {
+    flex: 1;
+    background: #f8f9fa;
+  }
+
+  /* Mobile Sidebar */
+  @media (max-width: 767.98px) {
+    .sidebar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 100%;
+      width: 260px;
+      transform: translateX(-100%);
+      z-index: 1050;
+      padding-top: 1rem;
+    }
+
+    .sidebar.show-mobile {
+      transform: translateX(0);
+    }
+
+    .sidebar-backdrop {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.4);
+      z-index: 1040;
+    }
+
+    .sidebar-backdrop.show {
+      display: block;
+    }
+  }
+
+  /* Desktop */
+  @media (min-width: 768px) {
+    .sidebar {
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      transform: none !important;
+    }
+
+    #sidebarToggle {
+      display: none;
+    }
+
+    .sidebar-backdrop {
+      display: none !important;
+    }
+  }
+</style>
+
+<!-- Mobile Toggle Button -->
+<button class="btn btn-dark m-3 d-md-none" id="sidebarToggle">
+  <i class="bi bi-list"></i>
+</button>
+
+<div class="d-flex">
+
+  <!-- Sidebar -->
+  <div class="sidebar p-4 text-white" id="mainSidebar">
+    <h4 class="text-center mb-4">
+      <i class="bi bi-grid-3x3-gap-fill me-2"></i>
+      <span style="color:#FF9933;">Dashboard</span>
+    </h4>
+
+    <h6 class="text-white text-center">{{ shopkeeper.first_name }} {{ shopkeeper.last_name }}</h6>
+
+    <nav class="nav flex-column">
+      <a class="nav-link active" href="#" onclick="showSection('home',event)">
+        <i class="bi bi-house-door-fill"></i> Home
+      </a>
+
+      <a class="nav-link" href="#" onclick="showSection('about',event)">
+        <i class="bi bi-info-circle-fill"></i> Add Products
+      </a>
+
+      <a class="nav-link" href="#" onclick="showSection('products',event)">
+        <i class="bi bi-box-seam"></i> Products
+      </a>
+
+      <a class="nav-link" href="#" onclick="showSection('purchase',event)">
+        <i class="bi bi-cart-check"></i> Purchase Order
+      </a>
+
+      <a class="nav-link" href="#" onclick="showSection('source',event)">
+        <i class="bi bi-chat-dots"></i> Feedback
+      </a>
+    </nav>
+  </div>
+
+  <!-- Backdrop -->
+  <div class="sidebar-backdrop" id="sidebarBackdrop"></div>
+
+  <!-- Content -->
+  <div class="content-wrapper p-4">
+
+    <div id="home" class="card p-4">
+      <!-- About Start -->
+      <div class="container-xxl py-5">
+        <div class="container">
+          <div class="row g-5">
+            <div class="col-lg-6 wow fadeInUp" data-wow-delay="0.1s" style="min-height: 400px;">
+              <div class="position-relative h-100">
+                <img class="img-fluid position-absolute w-100 h-100" src="static/img/New folder/kumbhmela.png"
+                  alt="Kumbh Mela" style="object-fit: cover;">
+              </div>
+            </div>
+            <div class="col-lg-6 wow fadeInUp" data-wow-delay="0.3s">
+              <h6 class="section-title bg-white text-start text-primary pe-3">About Kumbh Mela</h6>
+              <h1 class="mb-4">Welcome to Kumbh Mela</h1>
+              <p class="mb-4">Kumbh Mela is the largest religious and cultural gathering in the world. Millions of
+                devotees, saints, and visitors come together here to take the holy dip and experience spiritual
+                awakening.</p>
+              <p class="mb-4">This festival showcases Indian traditions, faith, and culture. Various rituals,
+                discourses, cultural programs, and the atmosphere of devotion are the highlights of Kumbh Mela.</p>
+              <div class="row gy-2 gx-4 mb-4">
+                <div class="col-sm-6">
+                  <p class="mb-0"><i class="fa fa-arrow-right text-primary me-2"></i>Holy Bath</p>
+                </div>
+                <div class="col-sm-6">
+                  <p class="mb-0"><i class="fa fa-arrow-right text-primary me-2"></i>Discourses by Saints</p>
+                </div>
+                <div class="col-sm-6">
+                  <p class="mb-0"><i class="fa fa-arrow-right text-primary me-2"></i>Cultural Programs</p>
+                </div>
+                <div class="col-sm-6">
+                  <p class="mb-0"><i class="fa fa-arrow-right text-primary me-2"></i>Spiritual Experience</p>
+                </div>
+              </div>
+              <a class="btn btn-primary py-3 px-5 mt-2" href="">Read More</a>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- About End -->
+    </div>
+
+    <div id="about" class="card p-4" style="display:none;">
+      <div class="container py-5">
+        <div class="text-center mb-4">
+          <h2>Add Your Product</h2>
+        </div>
+
+        <div class="row justify-content-center">
+          <div class="col-lg-8">
+
+            <form method="POST">
+              {% csrf_token %}
+
+              <label class="form-label fw-bold">Add Your Product</label>
+
+              <div id="productFields">
+
+                <div class="row g-2 align-items-center mb-3 product-row">
+                  <div class="col-md-4">
+                    <input type="text" name="product_name[]" class="form-control" placeholder="Product Name">
+                  </div>
+                  <div class="col-md-4">
+                    <input type="number" name="product_price[]" class="form-control" placeholder="Product Price">
+                  </div>
+                  <div class="col-md-2">
+                    <input type="number" name="product_quantity[]" class="form-control" placeholder="Quantity">
+                  </div>
+                  <div class="col-md-2">
+                    <button type="button" class="btn btn-success w-100" onclick="addField()">+</button>
+                  </div>
+                </div>
+
+              </div>
+
+              <button type="submit" class="btn btn-primary w-100 mt-3">
+                Submit
+              </button>
+            </form>
+
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+
+    <div id="products" class="card p-4" style="display:none;">
+      <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">SrNo</th>
+            <th scope="col">Product Name</th>
+            <th scope="col">Price</th>
+            <th scope="col">Quantity</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for products_details in products %}
+          <tr>
+            <th scope="row">{{ forloop.counter }}</th>
+            <td>{{ products_details.product_name }}</td>
+            <td>{{ products_details.product_price }}</td>
+            <td>{{ products_details.quantity }}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+
+
+    <div id="purchase" class="card p-4" style="display:none;">
+      <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">SrNo</th>
+            <th scope="col">Customer Name</th>
+            <th scope="col">Product Name</th>
+            <th scope="col">Price</th>
+            <th scope="col">Quantity</th>
+            <th scope="col">Total Amount</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for purchase in purchase_order %}
+          <tr>
+            <th scope="row">{{ forloop.counter }}</th>
+            <td>{{ purchase.visitor.first_name }} {{ purchase.visitor.last_name }}</td>
+            <td>{{ purchase.product.product_name }}</td>
+            <td>{{ purchase.product.product_price }}</td>
+            <td>{{ purchase.quantity }}</td>
+            <td>{{ purchase.total_price }}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+
+    <div id="source" class="card p-4" style="display:none;">
+      <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Shop Name</th>
+            <th scope="col">Visitor Name</th>
+            <th scope="col">Feedback</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for feedbacks in feedback %}
+          <tr>
+            <th scope="row">{{ forloop.counter }}</th>
+            <td>{{ feedbacks.shopkeeper.shop_name }}</td>
+            <td>{{ feedbacks.visitor.first_name }} {{ feedbacks.visitor.last_name }}</td>
+            <td>{{ feedbacks.comment }}</td>
+          </tr>
+          {% endfor %}
+          <tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div id="crowed" class="card p-4" style="display:none;">
+      <h2>Crowded Detection Section</h2>
+      <p>Crowded Detection content here.</p>
+    </div>
+
+  </div>
+</div>
+
+<script>
+  const sidebar = document.getElementById("mainSidebar");
+  const toggleBtn = document.getElementById("sidebarToggle");
+  const backdrop = document.getElementById("sidebarBackdrop");
+
+  toggleBtn.addEventListener("click", function () {
+    sidebar.classList.toggle("show-mobile");
+    backdrop.classList.toggle("show");
+  });
+
+  backdrop.addEventListener("click", function () {
+    sidebar.classList.remove("show-mobile");
+    backdrop.classList.remove("show");
+  });
+
+  function showSection(id, e) {
+    e.preventDefault();
+
+    document.querySelectorAll(".content-wrapper .card").forEach(sec => {
+      sec.style.display = "none";
+    });
+
+    document.getElementById(id).style.display = "block";
+
+    document.querySelectorAll(".sidebar .nav-link").forEach(link => {
+      link.classList.remove("active");
+    });
+
+    e.currentTarget.classList.add("active");
+
+    if (window.innerWidth < 768) {
+      sidebar.classList.remove("show-mobile");
+      backdrop.classList.remove("show");
+    }
+  }
+</script>
+<script>
+  function addField() {
+    let container = document.getElementById("productFields");
+
+    let div = document.createElement("div");
+    div.classList.add("row", "g-2", "align-items-center", "mb-3", "product-row");
+
+    div.innerHTML = `
+        <div class="col-md-4">
+            <input type="text" name="product_name[]" class="form-control" placeholder="Product Name">
+        </div>
+        <div class="col-md-4">
+            <input type="number" name="product_price[]" class="form-control" placeholder="Product Price">
+        </div>
+        <div class="col-md-2">
+            <input type="number" name="product_quantity[]" class="form-control" placeholder="Quantity">
+        </div>
+        <div class="col-md-2">
+            <button type="button" class="btn btn-danger w-100" onclick="removeField(this)">-</button>
+        </div>
+    `;
+
+    container.appendChild(div);
+  }
+
+  function removeField(button) {
+    button.closest(".product-row").remove();
+  }
+</script>
+{% endblock body %}

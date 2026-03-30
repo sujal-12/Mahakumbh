@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% block body %}
+      <!-- Contact Start -->
+    <div class="container-xxl py-5">
+        <div class="container">
+            <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
+                <h6 class="section-title bg-white text-center text-primary px-3">Admin Login Here</h6>
+                <h5 class="mb-5">Admin Login for Maha Kumbh 2027</h5>
+
+            </div>
+            <div class="row g-4">
+                <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.1s">
+                    <img src="static\img\shopkeeper.png" alt="" width="100%">
+                </div>
+                <div class="col-lg-8 col-md-12 wow fadeInUp" data-wow-delay="0.5s">
+                    <form method="post">
+                        {% csrf_token %}
+                        <div class="row g-3">
+                            <div class="col-md-12">
+                                <div class="form-floating">
+                                    <input type="email" class="form-control" id="username" name="username" placeholder="Your Email">
+                                    <label for="username">Your Email</label>
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <div class="form-floating">
+                                    <input type="password" class="form-control" id="password" name="password" placeholder="Password">
+                                    <label for="password">Password</label>
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <button class="btn btn-primary w-100 py-3" type="submit">Login Here</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Contact End -->
+{% endblock body %}
