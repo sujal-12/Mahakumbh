@@ -369,7 +369,7 @@ import cv2
 import numpy as np
 
 # YOLO setup (paths should be updated)
-weights_path = "app/OverCrowdDetection/yolov3.weights"
+# weights_path = "app/OverCrowdDetection/yolov3.weights"
 config_path = "app/OverCrowdDetection/yolov3.cfg"
 names_path = "app/OverCrowdDetection/coco.names"
 
